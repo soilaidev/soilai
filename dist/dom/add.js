@@ -25,35 +25,10 @@ function addBorder(element) {
 }
 function addForm(element, soilId) {
     const removeBorder = addBorder(element);
-    // BACKGROUND
-    const background = document.createElement("div");
-    background.style.position = "absolute";
-    background.style.zIndex = "998";
-    background.style.top = "0px";
-    background.style.right = "0px";
-    background.style.bottom = "0px";
-    background.style.left = "0px";
-    background.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-    background.onclick = function () {
-        removeBorder();
-        background.remove();
-    };
     // CONTAINER
     const container = document.createElement("div");
     container.style.position = "absolute";
     container.style.zIndex = "999";
-    // FORM
-    const form = document.createElement("form");
-    form.onsubmit = function (event) {
-        event.preventDefault();
-        (0, send_1.sendMessage)(soilId, input.value)
-            .then((d) => {
-            console.log(d);
-            removeBorder();
-            background.remove();
-        })
-            .catch(console.error);
-    };
     // INPUT
     const input = document.createElement("input");
     input.style.padding = "5px";
@@ -71,6 +46,32 @@ function addForm(element, soilId) {
     button.style.borderRadius = "3px";
     button.type = "submit";
     button.textContent = "Send";
+    // BACKGROUND
+    const background = document.createElement("div");
+    background.style.position = "absolute";
+    background.style.zIndex = "998";
+    background.style.top = "0px";
+    background.style.right = "0px";
+    background.style.bottom = "0px";
+    background.style.left = "0px";
+    background.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+    function removeAll() {
+        removeBorder();
+        container.remove();
+        background.remove();
+    }
+    // FORM
+    const form = document.createElement("form");
+    form.onsubmit = function (event) {
+        event.preventDefault();
+        (0, send_1.sendMessage)(soilId, input.value)
+            .then((d) => {
+            console.log(d);
+            removeAll();
+        })
+            .catch(console.error);
+    };
+    background.onclick = removeAll;
     // Position the container
     const elementRect = element.getBoundingClientRect();
     const bodyRect = document.body.getBoundingClientRect();
@@ -108,7 +109,7 @@ function addForm(element, soilId) {
     form.appendChild(input);
     form.appendChild(button);
     container.appendChild(form);
-    background.appendChild(container);
     document.body.appendChild(background);
+    document.body.appendChild(container);
     setTimeout(() => input.focus());
 }
