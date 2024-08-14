@@ -31,6 +31,10 @@ export function addForm(element: HTMLElement, soilId: string) {
   const container = document.createElement("div");
   container.style.position = "absolute";
   container.style.zIndex = "999";
+  container.style.backgroundColor = "#fff";
+  container.style.padding = "5px";
+  container.style.borderRadius = "5px";
+  container.style.margin = "5px";
 
   // INPUT
   const input = document.createElement("input");

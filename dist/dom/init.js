@@ -4,7 +4,6 @@ exports.initializeSoilAi = initializeSoilAi;
 const add_1 = require("./add");
 function initializeSoilAi() {
     function eventListener(event) {
-        console.log("Soil click event:", event);
         const target = event.target;
         // Traverse up the DOM tree to find the closest element with data-soil-id
         const soilElement = target.closest("[data-soil-id]");

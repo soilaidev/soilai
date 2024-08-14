@@ -2,7 +2,6 @@ import { addForm } from "./add";
 
 export function initializeSoilAi() {
   function eventListener(event: MouseEvent) {
-    console.log("Soil click event:", event);
     const target = event.target as HTMLElement;
 
     // Traverse up the DOM tree to find the closest element with data-soil-id
