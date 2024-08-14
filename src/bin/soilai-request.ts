@@ -13,7 +13,7 @@ const SOIL_SERVER = "https://soilai.dev/api/package";
 
 export async function postToSoilAi(payload: SoilAiPayload): Promise<SoilAiResponse> {
   const apiKey = process.env.SOILAI_API_KEY;
-  if (!apiKey) throw new Error("SOILAI_API_KEY is not defined in .env.development");
+  if (!apiKey) throw Error("SOILAI_API_KEY is not defined in .env.development");
 
   const url = new URL(`${SOIL_SERVER}?apiKey=${apiKey}`);
   const data = JSON.stringify(payload);

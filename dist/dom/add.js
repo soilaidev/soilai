@@ -46,14 +46,13 @@ function addForm(element, soilId) {
     const form = document.createElement("form");
     form.onsubmit = function (event) {
         event.preventDefault();
+        (0, send_1.sendMessage)(soilId, input.value).then(console.log).catch(console.error);
         removeBorder();
         background.remove();
-        // Send message to the server
-        (0, send_1.sendMessage)(soilId, input.value);
     };
     // INPUT
     const input = document.createElement("input");
-    input.style.padding = "2px";
+    input.style.padding = "5px";
     input.style.border = "1px solid #ccc";
     input.style.borderRadius = "3px";
     input.style.marginRight = "3px";
@@ -62,7 +61,9 @@ function addForm(element, soilId) {
     input.placeholder = "Enter change...";
     // BUTTON
     const button = document.createElement("button");
-    button.style.padding = "2px";
+    button.style.backgroundColor = "#fff";
+    button.style.padding = "5px";
+    button.style.border = "1px solid #ccc";
     button.style.borderRadius = "3px";
     button.type = "submit";
     button.textContent = "Send";

@@ -43,7 +43,7 @@ function postToSoilAi(payload) {
     return __awaiter(this, void 0, void 0, function* () {
         const apiKey = process.env.SOILAI_API_KEY;
         if (!apiKey)
-            throw new Error("SOILAI_API_KEY is not defined in .env.development");
+            throw Error("SOILAI_API_KEY is not defined in .env.development");
         const url = new url_1.URL(`${SOIL_SERVER}?apiKey=${apiKey}`);
         const data = JSON.stringify(payload);
         const options = {
