@@ -2,7 +2,7 @@
 
 Soil AI is an intuitive tool that allows developers and designers to make changes to their web applications just by clicking an element and typing a message. Whether you're tweaking the UI, modifying styles, or altering content, Soil AI streamlines the process and makes development faster and more accessible.
 
-## Features
+### Features
 
 - **Effortless Editing**: Simply click on any element in your app and type a message describing what you want to change.
 - **Real-Time Updates**: See changes happen as you asyncronously as you continue developing.
@@ -10,12 +10,12 @@ Soil AI is an intuitive tool that allows developers and designers to make change
 - **Context-Aware AI**: The AI understands the context of your app, making precise adjustments based on your instructions.
 - **Developer-Friendly**: Soil AI is easy to set up and integrates smoothly into your existing workflow.
 
-## Setup Overview
+### Setup Overview
 
-1. Installation
-1. Add Your API Key
-1. Setup Dev Server
-1. Setup Frontend
+1. **Installation**
+1. **Add Your API Key**
+1. **Setup Dev Server**
+1. **Setup Frontend**
 
 ## Installation
 
@@ -51,7 +51,7 @@ Replace your_api_key_here with your actual SOIL AI API key.
 
 _You may need to restart your development server_
 
-## Add Soil AI dev server
+## Setup Dev Server
 
 To run the SOIL AI development server alongside your existing development server (e.g., Next.js), you'll need to modify the dev command in your package.json file. This allows both servers to run together, ensuring that Soil AI is available during development.
 
