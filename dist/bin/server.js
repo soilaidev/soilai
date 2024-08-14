@@ -9,12 +9,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const debug_1 = __importDefault(require("debug"));
 const http_1 = require("http");
 const constants_1 = require("../constants");
 const soilai_request_1 = require("./soilai-request");
 const find_file_1 = require("./find-file");
+const soilAiDebug = (0, debug_1.default)("soilai");
 const server = (0, http_1.createServer)((req, res) => {
+    console.log(`Soil server: ${req.method} ${req.url}`);
     if (req.method !== "POST" || req.url !== "/") {
         res.writeHead(404, { "Content-Type": "application/json" });
         res.end(JSON.stringify({ success: false, error: "Not found" }));
@@ -26,6 +32,7 @@ const server = (0, http_1.createServer)((req, res) => {
     req.on("end", () => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const data = JSON.parse(body);
+            soilAiDebug("Received data:", data);
             if (typeof data.soilId !== "string" || typeof data.message !== "string")
                 throw Error("Invalid data format");
             const fileData = yield (0, find_file_1.findFileWithSoilId)(data.soilId);
