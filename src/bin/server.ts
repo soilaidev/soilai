@@ -1,11 +1,15 @@
 #!/usr/bin/env node
 
+import debug from "debug";
 import { createServer, type IncomingMessage, type ServerResponse } from "http";
 import { PORT } from "../constants";
 import { postToSoilAi } from "./soilai-request";
 import { findFileWithSoilId, writeFile } from "./find-file";
 
+const soilAiDebug = debug("soilai");
+
 const server = createServer((req: IncomingMessage, res: ServerResponse) => {
+  console.log(`Soil server: ${req.method} ${req.url}`);
   if (req.method !== "POST" || req.url !== "/") {
     res.writeHead(404, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ success: false, error: "Not found" }));
@@ -20,7 +24,7 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
   req.on("end", async () => {
     try {
       const data = JSON.parse(body);
-
+      soilAiDebug("Received data:", data);
       if (typeof data.soilId !== "string" || typeof data.message !== "string") throw Error("Invalid data format");
 
       const fileData = await findFileWithSoilId(data.soilId);
