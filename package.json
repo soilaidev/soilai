@@ -1,0 +1,45 @@
+{
+  "name": "soilai",
+  "version": "0.0.1",
+  "description": "The Fun No-Code AI",
+  "author": "Daniel Murawsky",
+  "homepage": "https://soilai.dev/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dmurawsky/soilai.git"
+  },
+  "bugs": "https://github.com/dmurawsky/soilai/issues",
+  "license": "MIT",
+  "keywords": [
+    "ai",
+    "no-code",
+    "soil"
+  ],
+  "main": "dist/index.js",
+  "bin": {
+    "soilai": "dist/bin/server.js"
+  },
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist && tsc",
+    "patch": "npm version patch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "chokidar": "^3.6.0",
+    "dotenv": "^16.4.5",
+    "firebase": "^10.12.5",
+    "ignore": "^5.3.1",
+    "prettier": "^3.3.3"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0"
+  },
+  "prettier": {
+    "printWidth": 120
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "typescript": "^5.5.4"
+  }
+}

@@ -1,0 +1,24 @@
+import { PORT } from "../constants";
+
+const LOCAL_SOIL_SERVER = `http://localhost:${PORT}/`;
+
+export async function sendMessage(soilId: string, message: string): Promise<object | null> {
+  try {
+    const response = await fetch(LOCAL_SOIL_SERVER, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ soilId, message }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Server responded with status ${response.status}`);
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error posting to server:", error);
+  }
+  return null;
+}
