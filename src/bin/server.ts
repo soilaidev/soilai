@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { createServer, type IncomingMessage, type ServerResponse } from "http";
 import { PORT } from "../constants";
 import { postToSoilAi } from "./soilai-request";

@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { SoilAiPayload } from "../types";
 /** Example usage:
 ```ts

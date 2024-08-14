@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import fs from "fs";
 import path from "path";
 import { promisify } from "util";
@@ -24,7 +26,7 @@ async function getGitIgnore(rootDir: string): Promise<Ignore | null> {
 async function findFileWithSoilIdRecursive(
   directory: string,
   soilId: string,
-  ig: Ignore | null,
+  ig: Ignore | null
 ): Promise<Omit<SoilAiPayload, "message"> | null> {
   const files = await readdir(directory);
 
