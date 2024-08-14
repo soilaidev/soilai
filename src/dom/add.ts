@@ -51,10 +51,14 @@ export function addForm(element: HTMLElement, soilId: string) {
   form.onsubmit = function (event) {
     event.preventDefault();
 
-    sendMessage(soilId, input.value).then(console.log).catch(console.error);
+    sendMessage(soilId, input.value)
+      .then((d) => {
+        console.log(d);
 
-    removeBorder();
-    background.remove();
+        removeBorder();
+        background.remove();
+      })
+      .catch(console.error);
   };
 
   // INPUT

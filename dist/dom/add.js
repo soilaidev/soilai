@@ -46,9 +46,13 @@ function addForm(element, soilId) {
     const form = document.createElement("form");
     form.onsubmit = function (event) {
         event.preventDefault();
-        (0, send_1.sendMessage)(soilId, input.value).then(console.log).catch(console.error);
-        removeBorder();
-        background.remove();
+        (0, send_1.sendMessage)(soilId, input.value)
+            .then((d) => {
+            console.log(d);
+            removeBorder();
+            background.remove();
+        })
+            .catch(console.error);
     };
     // INPUT
     const input = document.createElement("input");
