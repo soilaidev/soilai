@@ -4,6 +4,8 @@ import { sendMessage } from "./api";
 import { SendIcon } from "./send-icon";
 import { toast } from "./toast";
 
+// const darkMode = typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches;
+
 function addBorder(element: HTMLElement) {
   // Save original styles
   const originalStyle = {
@@ -33,6 +35,7 @@ export function addForm(element: HTMLElement, soilId: string) {
   const input = createStyledElement(
     "input",
     {
+      color: "#333",
       boxSizing: "content-box",
       padding: "7px",
       border: "1px solid #ccc",

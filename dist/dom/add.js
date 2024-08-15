@@ -6,6 +6,7 @@ const create_element_1 = require("./create-element");
 const api_1 = require("./api");
 const send_icon_1 = require("./send-icon");
 const toast_1 = require("./toast");
+// const darkMode = typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches;
 function addBorder(element) {
     // Save original styles
     const originalStyle = {
@@ -29,6 +30,7 @@ function addBorder(element) {
 function addForm(element, soilId) {
     const removeBorder = addBorder(element);
     const input = (0, create_element_1.createStyledElement)("input", {
+        color: "#333",
         boxSizing: "content-box",
         padding: "7px",
         border: "1px solid #ccc",
