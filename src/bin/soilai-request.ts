@@ -36,7 +36,6 @@ export async function postToSoilAi(payload: SoilAiPayload): Promise<SoilAiRespon
 
       res.on("end", () => {
         if (res.statusCode && res.statusCode >= 200 && res.statusCode < 400) {
-          console.log("Response from API:", responseData);
           resolve(JSON.parse(responseData) as SoilAiResponse);
         } else {
           reject(new Error(`Request failed with status code ${res.statusCode}: ${responseData}`));

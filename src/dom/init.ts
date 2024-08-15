@@ -1,7 +1,10 @@
+import { CONTAINER_ID } from "../constants";
 import { addForm } from "./add";
 
 export function initializeSoilAi() {
   function eventListener(event: MouseEvent) {
+    if (document.getElementById(CONTAINER_ID)) return;
+
     const target = event.target as HTMLElement;
 
     // Traverse up the DOM tree to find the closest element with data-soil-id

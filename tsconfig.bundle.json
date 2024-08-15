@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    // Set the target JavaScript version
+    "target": "es5",
+    // Module system, Rollup handles it
+    "module": "esnext",
+    // Enable all strict type-checking options
+    "strict": true,
+    // Enables interop between CommonJS and ES Modules
+    "esModuleInterop": true,
+    // Skip type checking of declaration files
+    "skipLibCheck": true,
+    // Ensure this is set if using importHelpers
+    "importHelpers": true,
+    // Enforce consistent casing in import paths
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src/dom/**/*"]
+}

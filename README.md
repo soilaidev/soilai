@@ -91,16 +91,6 @@ The single ampersand (&) in the command allows both servers to run in parallel. 
 
 ## Setup Frontend
 
-### JavaScript
-
-```js
-import { initializeSoilAi } from "soilai";
-
-document.addEventListener("DOMContentLoaded", function () {
-  initializeSoilAi();
-});
-```
-
 ### React
 
 #### Use the hook
@@ -128,6 +118,25 @@ function App() {
     </main>
   );
 }
+```
+
+### HTML
+
+```html
+<html lang="en">
+  <body data-soil-id="body">
+    <h1>Soiled Web</h1>
+    <script src="https://soilai.dev/soilai.js"></script>
+  </body>
+</html>
+```
+
+### JavaScript
+
+```js
+import { initializeSoilAi } from "soilai";
+
+document.addEventListener("DOMContentLoaded", initializeSoilAi);
 ```
 
 ## Contributing

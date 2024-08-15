@@ -1,9 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.initializeSoilAi = initializeSoilAi;
+const constants_1 = require("../constants");
 const add_1 = require("./add");
 function initializeSoilAi() {
     function eventListener(event) {
+        if (document.getElementById(constants_1.CONTAINER_ID))
+            return;
         const target = event.target;
         // Traverse up the DOM tree to find the closest element with data-soil-id
         const soilElement = target.closest("[data-soil-id]");

@@ -1,7 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addForm = addForm;
+const constants_1 = require("../constants");
 const send_1 = require("./send");
+const send_icon_1 = require("./send-icon");
 function addBorder(element) {
     // Save original styles
     const originalStyle = {
@@ -27,29 +29,36 @@ function addForm(element, soilId) {
     const removeBorder = addBorder(element);
     // CONTAINER
     const container = document.createElement("div");
+    container.id = constants_1.CONTAINER_ID;
     container.style.position = "absolute";
     container.style.zIndex = "999";
     container.style.backgroundColor = "#fff";
     container.style.padding = "5px";
     container.style.borderRadius = "5px";
     container.style.margin = "5px";
+    container.style.border = "1px solid #ccc";
+    container.style.boxShadow = "0px 5px 5px rgba(0, 0, 0, 0.4)";
+    container.style.width = "300px";
+    container.style.maxWidth = "100%";
     // INPUT
     const input = document.createElement("input");
-    input.style.padding = "5px";
+    input.style.padding = "7px";
     input.style.border = "1px solid #ccc";
     input.style.borderRadius = "3px";
     input.style.marginRight = "3px";
+    input.style.height = "19px";
+    input.style.flex = "1";
     input.type = "text";
     input.autofocus = true;
-    input.placeholder = "Enter change...";
+    input.placeholder = "Describe your change...";
     // BUTTON
     const button = document.createElement("button");
     button.style.backgroundColor = "#fff";
-    button.style.padding = "5px";
+    button.style.padding = "4px 5px 2px 4px";
     button.style.border = "1px solid #ccc";
     button.style.borderRadius = "3px";
     button.type = "submit";
-    button.textContent = "Send";
+    button.innerHTML = send_icon_1.SendIcon;
     // BACKGROUND
     const background = document.createElement("div");
     background.style.position = "absolute";
@@ -58,7 +67,7 @@ function addForm(element, soilId) {
     background.style.right = "0px";
     background.style.bottom = "0px";
     background.style.left = "0px";
-    background.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+    background.style.backgroundColor = "rgba(0, 0, 0, 0.3)";
     function removeAll() {
         removeBorder();
         container.remove();
@@ -66,6 +75,7 @@ function addForm(element, soilId) {
     }
     // FORM
     const form = document.createElement("form");
+    form.style.display = "flex";
     form.onsubmit = function (event) {
         event.preventDefault();
         (0, send_1.sendMessage)(soilId, input.value)
