@@ -6,7 +6,7 @@
   "homepage": "https://soilai.dev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dmurawsky/soilai.git"
+    "url": "git+https://github.com/dmurawsky/soilai.git"
   },
   "bugs": "https://github.com/dmurawsky/soilai/issues",
   "license": "MIT",
