@@ -1,0 +1,1 @@
+export declare function createStyledElement<K extends keyof HTMLElementTagNameMap>(elementType: K, styles: Partial<CSSStyleDeclaration>, attributes?: Partial<HTMLElementTagNameMap[K]>): HTMLElementTagNameMap[K];
