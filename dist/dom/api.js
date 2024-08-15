@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendMessage = sendMessage;
+exports.status = status;
 const constants_1 = require("../constants");
 const LOCAL_SOIL_SERVER = `http://localhost:${constants_1.PORT}/`;
 function sendMessage(soilId, message) {
@@ -20,5 +21,18 @@ function sendMessage(soilId, message) {
         .catch((error) => {
         console.error("Error posting to server:", error);
         return null;
+    });
+}
+function status() {
+    return fetch(LOCAL_SOIL_SERVER, { method: "GET" })
+        .then((response) => {
+        if (!response.ok) {
+            throw new Error(`Server responded with status ${response.status}`);
+        }
+        return true;
+    })
+        .catch((error) => {
+        console.error("Error posting to server:", error);
+        return false;
     });
 }

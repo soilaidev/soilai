@@ -23,3 +23,19 @@ export function sendMessage(soilId: string, message: string): Promise<object | n
       return null;
     });
 }
+
+export function status(): Promise<boolean> {
+  return fetch(LOCAL_SOIL_SERVER, { method: "GET" })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Server responded with status ${response.status}`);
+      }
+
+      return true;
+    })
+    .catch((error) => {
+      console.error("Error posting to server:", error);
+
+      return false;
+    });
+}

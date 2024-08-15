@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.addForm = addForm;
 const constants_1 = require("../constants");
 const create_element_1 = require("./create-element");
-const send_1 = require("./send");
+const api_1 = require("./api");
 const send_icon_1 = require("./send-icon");
 const toast_1 = require("./toast");
 function addBorder(element) {
@@ -110,7 +110,7 @@ function addForm(element, soilId) {
     }, {
         onsubmit: function (event) {
             event.preventDefault();
-            (0, send_1.sendMessage)(soilId, input.value)
+            (0, api_1.sendMessage)(soilId, input.value)
                 .then(() => (0, toast_1.toast)("Soil AI Update Complete"))
                 .catch((e) => (0, toast_1.toast)(e.message));
             setTimeout(() => {

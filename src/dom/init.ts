@@ -1,5 +1,7 @@
 import { CONTAINER_ID } from "../constants";
 import { addForm } from "./add";
+import { status } from "./api";
+import { toast } from "./toast";
 
 export function initializeSoilAi() {
   function eventListener(event: MouseEvent) {
@@ -16,11 +18,15 @@ export function initializeSoilAi() {
     }
   }
 
-  document.addEventListener("click", eventListener);
+  status().then((isServerRunning) => {
+    if (!isServerRunning) return toast("Soil AI server is not running", true);
+
+    document.addEventListener("click", eventListener);
+  });
 
   function removeClickListener() {
     document.removeEventListener("click", eventListener);
-    console.log("Click listener removed.");
   }
+
   return removeClickListener;
 }

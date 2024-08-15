@@ -1,1 +1,1 @@
-export declare function toast(message: string): void;
+export declare function toast(message: string, error?: boolean): void;

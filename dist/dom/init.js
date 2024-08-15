@@ -3,6 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.initializeSoilAi = initializeSoilAi;
 const constants_1 = require("../constants");
 const add_1 = require("./add");
+const api_1 = require("./api");
+const toast_1 = require("./toast");
 function initializeSoilAi() {
     function eventListener(event) {
         if (document.getElementById(constants_1.CONTAINER_ID))
@@ -16,10 +18,13 @@ function initializeSoilAi() {
                 (0, add_1.addForm)(soilElement, soilId);
         }
     }
-    document.addEventListener("click", eventListener);
+    (0, api_1.status)().then((isServerRunning) => {
+        if (!isServerRunning)
+            return (0, toast_1.toast)("Soil AI server is not running", true);
+        document.addEventListener("click", eventListener);
+    });
     function removeClickListener() {
         document.removeEventListener("click", eventListener);
-        console.log("Click listener removed.");
     }
     return removeClickListener;
 }

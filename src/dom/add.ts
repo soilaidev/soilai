@@ -1,6 +1,6 @@
 import { CONTAINER_ID } from "../constants";
 import { createStyledElement } from "./create-element";
-import { sendMessage } from "./send";
+import { sendMessage } from "./api";
 import { SendIcon } from "./send-icon";
 import { toast } from "./toast";
 

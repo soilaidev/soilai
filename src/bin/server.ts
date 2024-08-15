@@ -16,7 +16,12 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
   res.setHeader("Access-Control-Allow-Headers", "X-Requested-With,content-type");
 
-  // Handle preflight OPTIONS request
+  if (req.method === "GET") {
+    res.writeHead(200);
+    res.end();
+    return;
+  }
+
   if (req.method === "OPTIONS") {
     res.writeHead(204);
     res.end();
