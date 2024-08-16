@@ -27,7 +27,7 @@ function addBorder(element) {
         element.style.transition = originalStyle.transition;
     };
 }
-function addForm(element, soilId, demo = false) {
+function addForm(element, soilId, demo) {
     const removeBorder = addBorder(element);
     const input = (0, create_element_1.createStyledElement)("input", {
         color: "#333",
@@ -39,6 +39,8 @@ function addForm(element, soilId, demo = false) {
         height: "19px",
         flex: "1",
     }, { type: "text", autofocus: true, placeholder: "Describe your change..." });
+    if (demo)
+        input.value = demo.inputId;
     const button = (0, create_element_1.createStyledElement)("button", {
         boxSizing: "content-box",
         padding: "2px 0px 4px 0px",
@@ -114,12 +116,12 @@ function addForm(element, soilId, demo = false) {
             event.preventDefault();
             if (!demo) {
                 (0, api_1.sendMessage)(soilId, input.value)
-                    .then(() => (0, toast_1.toast)("Soil AI Update Complete"))
+                    .then(() => (0, toast_1.toast)("Harvest time!"))
                     .catch((e) => (0, toast_1.toast)(e.message));
             }
             setTimeout(() => {
                 removeAll();
-                (0, toast_1.toast)("Processing...");
+                (0, toast_1.toast)("Planting your idea...");
             }, 500);
         },
     });

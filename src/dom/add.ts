@@ -29,7 +29,7 @@ function addBorder(element: HTMLElement) {
   };
 }
 
-export function addForm(element: HTMLElement, soilId: string, demo = false) {
+export function addForm(element: HTMLElement, soilId: string, demo?: { inputId: string }) {
   const removeBorder = addBorder(element);
 
   const input = createStyledElement(
@@ -46,6 +46,8 @@ export function addForm(element: HTMLElement, soilId: string, demo = false) {
     },
     { type: "text", autofocus: true, placeholder: "Describe your change..." }
   );
+
+  if (demo) input.value = demo.inputId;
 
   const button = createStyledElement(
     "button",
@@ -139,13 +141,13 @@ export function addForm(element: HTMLElement, soilId: string, demo = false) {
 
         if (!demo) {
           sendMessage(soilId, input.value)
-            .then(() => toast("Soil AI Update Complete"))
+            .then(() => toast("Harvest time!"))
             .catch((e) => toast(e.message));
         }
 
         setTimeout(() => {
           removeAll();
-          toast("Processing...");
+          toast("Planting your idea...");
         }, 500);
       },
     }
