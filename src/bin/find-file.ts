@@ -40,7 +40,7 @@ async function findFileWithSoilIdRecursive(
       const fileContents = fs.readFileSync(filePath, "utf-8");
 
       if (fileContents.includes(`data-soil-id="${soilId}"`)) {
-        return { fileContents, filePath, fileExt: path.extname(file) };
+        return { soilId, fileContents, filePath, fileExt: path.extname(file) };
       }
     } else if (fileStat.isDirectory()) {
       const result = await findFileWithSoilIdRecursive(filePath, soilId, ig);

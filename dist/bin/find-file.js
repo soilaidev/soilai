@@ -47,7 +47,7 @@ function findFileWithSoilIdRecursive(directory, soilId, ig) {
             if (fileStat.isFile()) {
                 const fileContents = fs_1.default.readFileSync(filePath, "utf-8");
                 if (fileContents.includes(`data-soil-id="${soilId}"`)) {
-                    return { fileContents, filePath, fileExt: path_1.default.extname(file) };
+                    return { soilId, fileContents, filePath, fileExt: path_1.default.extname(file) };
                 }
             }
             else if (fileStat.isDirectory()) {

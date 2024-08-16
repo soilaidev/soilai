@@ -5,6 +5,7 @@ export type SoilAiPayload = {
   fileContents: string;
   filePath: string;
   fileExt: string;
+  soilId: string;
 };
 
 export type SoilAiResponse = {

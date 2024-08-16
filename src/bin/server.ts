@@ -8,6 +8,8 @@ import { findFileWithSoilId, writeFile } from "./find-file";
 
 const soilAiDebug = debug("soilai");
 
+const requestQueue = [];
+
 const server = createServer((req: IncomingMessage, res: ServerResponse) => {
   console.log(`Soil server: ${req.method} ${req.url}`);
 

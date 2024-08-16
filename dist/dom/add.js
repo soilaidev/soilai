@@ -121,7 +121,7 @@ function addForm(element, soilId, demo) {
             }
             setTimeout(() => {
                 removeAll();
-                (0, toast_1.toast)("Planting your idea...");
+                (0, toast_1.toast)("Planting in rich soil...");
             }, 500);
         },
     });

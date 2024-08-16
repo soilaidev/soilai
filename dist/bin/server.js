@@ -19,6 +19,7 @@ const constants_1 = require("../constants");
 const soilai_request_1 = require("./soilai-request");
 const find_file_1 = require("./find-file");
 const soilAiDebug = (0, debug_1.default)("soilai");
+const requestQueue = [];
 const server = (0, http_1.createServer)((req, res) => {
     console.log(`Soil server: ${req.method} ${req.url}`);
     // Set CORS headers

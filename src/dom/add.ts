@@ -147,7 +147,7 @@ export function addForm(element: HTMLElement, soilId: string, demo?: { inputId: 
 
         setTimeout(() => {
           removeAll();
-          toast("Planting your idea...");
+          toast("Planting in rich soil...");
         }, 500);
       },
     }
