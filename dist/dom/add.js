@@ -27,7 +27,7 @@ function addBorder(element) {
         element.style.transition = originalStyle.transition;
     };
 }
-function addForm(element, soilId) {
+function addForm(element, soilId, demo = false) {
     const removeBorder = addBorder(element);
     const input = (0, create_element_1.createStyledElement)("input", {
         color: "#333",
@@ -112,9 +112,11 @@ function addForm(element, soilId) {
     }, {
         onsubmit: function (event) {
             event.preventDefault();
-            (0, api_1.sendMessage)(soilId, input.value)
-                .then(() => (0, toast_1.toast)("Soil AI Update Complete"))
-                .catch((e) => (0, toast_1.toast)(e.message));
+            if (!demo) {
+                (0, api_1.sendMessage)(soilId, input.value)
+                    .then(() => (0, toast_1.toast)("Soil AI Update Complete"))
+                    .catch((e) => (0, toast_1.toast)(e.message));
+            }
             setTimeout(() => {
                 removeAll();
                 (0, toast_1.toast)("Processing...");
@@ -127,4 +129,5 @@ function addForm(element, soilId) {
     document.body.appendChild(background);
     document.body.appendChild(container);
     setTimeout(() => input.focus());
+    return removeAll;
 }

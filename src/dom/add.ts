@@ -29,7 +29,7 @@ function addBorder(element: HTMLElement) {
   };
 }
 
-export function addForm(element: HTMLElement, soilId: string) {
+export function addForm(element: HTMLElement, soilId: string, demo = false) {
   const removeBorder = addBorder(element);
 
   const input = createStyledElement(
@@ -137,9 +137,11 @@ export function addForm(element: HTMLElement, soilId: string) {
       onsubmit: function (event) {
         event.preventDefault();
 
-        sendMessage(soilId, input.value)
-          .then(() => toast("Soil AI Update Complete"))
-          .catch((e) => toast(e.message));
+        if (!demo) {
+          sendMessage(soilId, input.value)
+            .then(() => toast("Soil AI Update Complete"))
+            .catch((e) => toast(e.message));
+        }
 
         setTimeout(() => {
           removeAll();
@@ -157,4 +159,6 @@ export function addForm(element: HTMLElement, soilId: string) {
   document.body.appendChild(container);
 
   setTimeout(() => input.focus());
+
+  return removeAll;
 }
