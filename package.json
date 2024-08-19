@@ -6,9 +6,9 @@
   "homepage": "https://soilai.dev",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dmurawsky/soilai.git"
+    "url": "git+https://github.com/soilaidev/soilai.git"
   },
-  "bugs": "https://github.com/dmurawsky/soilai/issues",
+  "bugs": "https://github.com/soilaidev/soilai/issues",
   "license": "MIT",
   "keywords": [
     "ai",
