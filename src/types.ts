@@ -1,4 +1,9 @@
-export type InitialMessage = { message: string; soilId: string };
+export type InitialMessage = {
+  message: string;
+  env: "js" | "react" | "react-native";
+  soilId?: string;
+  pathname?: string;
+};
 
 export type SoilAiPayload = {
   message: string;

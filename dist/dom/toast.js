@@ -17,6 +17,7 @@ function toast(message, error = false) {
         transition: "opacity 0.5s, bottom 0.5s",
         width: "fit-content",
         maxWidth: "100%",
+        zIndex: "999",
     }, { textContent: message });
     document.body.appendChild(toast);
     setTimeout(() => {

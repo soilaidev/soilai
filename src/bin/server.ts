@@ -1,14 +1,67 @@
 #!/usr/bin/env node
 
+//@ts-check
 import debug from "debug";
 import { createServer, type IncomingMessage, type ServerResponse } from "http";
 import { PORT } from "../constants";
 import { postToSoilAi } from "./soilai-request";
 import { findFileWithSoilId, writeFile } from "./find-file";
+import { v4 as uuidv4 } from "uuid";
+import { InitialMessage, SoilAiPayload } from "../types";
+import { getNewNextFile } from "./new-page";
 
 const soilAiDebug = debug("soilai");
 
-const requestQueue = [];
+interface RequestQueueItem {
+  data: SoilAiPayload;
+  resolve: (value: unknown) => void;
+  reject: (reason?: any) => void;
+}
+
+const requestQueue: Map<string, RequestQueueItem[]> = new Map();
+const processingFiles: Set<string> = new Set();
+
+function getResponseEnd(res: ServerResponse) {
+  return function responseStatus(status = 200) {
+    res.writeHead(status, { "Content-Type": "application/json" });
+    return function responseEnd(data?: unknown) {
+      res.end(data ? JSON.stringify(data) : undefined);
+      return res;
+    };
+  };
+}
+
+const processQueue = async (filePath: string) => {
+  if (processingFiles.has(filePath)) return;
+  const queue = requestQueue.get(filePath);
+  if (!queue || queue.length === 0) return;
+
+  processingFiles.add(filePath);
+
+  while (queue.length > 0) {
+    const { data, resolve, reject } = queue.shift()!;
+    try {
+      soilAiDebug("Processing data:", data);
+      const fileData = await findFileWithSoilId(data.soilId);
+      if (!fileData) throw new Error("File with Soil ID not found");
+
+      const { modifiedFileContents } = await postToSoilAi({ ...fileData, message: data.message });
+      if (!modifiedFileContents.includes(`data-soil-id="${data.soilId}"`)) {
+        throw new Error("Error: soilId not found in modified file contents");
+      }
+
+      await writeFile(fileData.filePath, modifiedFileContents);
+
+      resolve({ success: true });
+    } catch (error) {
+      if (error instanceof Error) {
+        reject({ success: false, error: error.message });
+      }
+    }
+  }
+
+  processingFiles.delete(filePath);
+};
 
 const server = createServer((req: IncomingMessage, res: ServerResponse) => {
   console.log(`Soil server: ${req.method} ${req.url}`);
@@ -18,22 +71,13 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
   res.setHeader("Access-Control-Allow-Headers", "X-Requested-With,content-type");
 
-  if (req.method === "GET") {
-    res.writeHead(200);
-    res.end();
-    return;
-  }
+  const responseStatus = getResponseEnd(res);
 
-  if (req.method === "OPTIONS") {
-    res.writeHead(204);
-    res.end();
-    return;
-  }
+  if (req.method === "GET") return responseStatus()();
 
-  if (req.method !== "POST" || req.url !== "/") {
-    res.writeHead(404, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ success: false, error: "Not found" }));
-  }
+  if (req.method === "OPTIONS") return responseStatus(204)();
+
+  if (req.method !== "POST" || req.url !== "/") return responseStatus(404)({ success: false, error: "Not found" });
 
   let body = "";
 
@@ -43,27 +87,51 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
 
   req.on("end", async () => {
     try {
-      const data = JSON.parse(body);
-      soilAiDebug("Received data:", data);
-      if (typeof data.soilId !== "string" || typeof data.message !== "string") throw Error("Invalid data format");
+      const { message, soilId, pathname }: InitialMessage = JSON.parse(body);
+      if (typeof message !== "string") throw Error("Message is required");
 
-      const fileData = await findFileWithSoilId(data.soilId);
-      if (!fileData) throw Error("File with Soil ID not found");
+      if (!soilId || (typeof soilId !== "string" && pathname)) {
+        const newSoilId = uuidv4();
 
-      const { modifiedFileContents } = await postToSoilAi({ ...fileData, message: data.message });
-      if (!modifiedFileContents.includes(`data-soil-id="${data.soilId}"`)) {
-        throw Error("Error: soilId not found in modified file contents");
+        const newFileContents = getNewNextFile(newSoilId);
+
+        const newFilePath = `/app${pathname}/page.tsx`;
+
+        const { modifiedFileContents: modifiedNewFileContents } = await postToSoilAi({
+          message,
+          fileContents: newFileContents,
+          filePath: newFilePath,
+          fileExt: "tsx",
+          soilId: newSoilId,
+        });
+        if (!modifiedNewFileContents.includes(`data-soil-id="${newSoilId}"`)) {
+          throw new Error("Error: soilId not found in modified file contents");
+        }
+
+        await writeFile(newFilePath, modifiedNewFileContents);
+      } else {
+        const fileData = await findFileWithSoilId(soilId);
+        if (!fileData) throw Error("File with Soil ID not found");
+
+        const filePath = fileData.filePath;
+
+        // Create a new promise to handle the response
+        const queuePromise = new Promise((resolve, reject) => {
+          // Add request to the queue
+          if (!requestQueue.has(filePath)) {
+            requestQueue.set(filePath, []);
+          }
+          requestQueue.get(filePath)!.push({ data: { ...fileData, message }, resolve, reject });
+
+          // Start processing the queue
+          processQueue(filePath);
+        });
+
+        // Send the response when the queue promise resolves or rejects
+        queuePromise.then(responseStatus()).catch(responseStatus(400));
       }
-
-      await writeFile(fileData.filePath, modifiedFileContents);
-
-      res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ success: true }));
     } catch (error) {
-      if (error instanceof Error) {
-        res.writeHead(400, { "Content-Type": "application/json" });
-        res.end(JSON.stringify({ success: false, error: error.message }));
-      }
+      if (error instanceof Error) return responseStatus(400)({ success: false, error: error.message });
     }
   });
 });

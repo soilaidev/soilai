@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.initializeSoilAi = initializeSoilAi;
 const constants_1 = require("../constants");
 const add_1 = require("./add");
-const api_1 = require("./api");
+const api_1 = require("../api");
 const toast_1 = require("./toast");
-function initializeSoilAi() {
+function initializeSoilAi(env = "js") {
     function eventListener(event) {
         if (document.getElementById(constants_1.CONTAINER_ID))
             return;
@@ -15,7 +15,7 @@ function initializeSoilAi() {
         if (soilElement) {
             const soilId = soilElement.getAttribute("data-soil-id");
             if (soilId)
-                (0, add_1.addForm)(soilElement, soilId);
+                (0, add_1.addForm)(soilElement, soilId, env);
         }
     }
     (0, api_1.status)().then((isServerRunning) => {

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.addForm = addForm;
 const constants_1 = require("../constants");
 const create_element_1 = require("./create-element");
-const api_1 = require("./api");
+const api_1 = require("../api");
 const send_icon_1 = require("./send-icon");
 const toast_1 = require("./toast");
 // const darkMode = typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -27,7 +27,7 @@ function addBorder(element) {
         element.style.transition = originalStyle.transition;
     };
 }
-function addForm(element, soilId, demo) {
+function addForm(element, soilId, env = "js", demo) {
     const removeBorder = addBorder(element);
     const input = (0, create_element_1.createStyledElement)("input", {
         color: "#333",
@@ -115,7 +115,7 @@ function addForm(element, soilId, demo) {
         onsubmit: function (event) {
             event.preventDefault();
             if (!demo) {
-                (0, api_1.sendMessage)(soilId, input.value)
+                (0, api_1.sendMessage)({ soilId, message: input.value, env })
                     .then(() => (0, toast_1.toast)("Harvest time!"))
                     .catch((e) => (0, toast_1.toast)(e.message));
             }

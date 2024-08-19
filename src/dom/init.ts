@@ -1,9 +1,9 @@
 import { CONTAINER_ID } from "../constants";
 import { addForm } from "./add";
-import { status } from "./api";
+import { status } from "../api";
 import { toast } from "./toast";
 
-export function initializeSoilAi() {
+export function initializeSoilAi(env: "js" | "react" = "js") {
   function eventListener(event: MouseEvent) {
     if (document.getElementById(CONTAINER_ID)) return;
 
@@ -14,7 +14,7 @@ export function initializeSoilAi() {
 
     if (soilElement) {
       const soilId = soilElement.getAttribute("data-soil-id");
-      if (soilId) addForm(soilElement, soilId);
+      if (soilId) addForm(soilElement, soilId, env);
     }
   }
 

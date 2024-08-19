@@ -1,1 +1,1 @@
-export declare function initializeSoilAi(): () => void;
+export declare function initializeSoilAi(env?: "js" | "react"): () => void;

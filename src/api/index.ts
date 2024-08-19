@@ -1,19 +1,16 @@
 import { PORT } from "../constants";
+import { InitialMessage } from "../types";
 
 const LOCAL_SOIL_SERVER = `http://localhost:${PORT}/`;
 
-export function sendMessage(soilId: string, message: string): Promise<object | null> {
+export function sendMessage(payload: InitialMessage): Promise<object | null> {
   return fetch(LOCAL_SOIL_SERVER, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ soilId, message }),
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
   })
     .then((response) => {
-      if (!response.ok) {
-        throw new Error(`Server responded with status ${response.status}`);
-      }
+      if (!response.ok) throw Error(`Server responded with status ${response.status}`);
 
       return response.json();
     })

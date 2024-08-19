@@ -1,6 +1,6 @@
 import { CONTAINER_ID } from "../constants";
 import { createStyledElement } from "./create-element";
-import { sendMessage } from "./api";
+import { sendMessage } from "../api";
 import { SendIcon } from "./send-icon";
 import { toast } from "./toast";
 
@@ -29,7 +29,7 @@ function addBorder(element: HTMLElement) {
   };
 }
 
-export function addForm(element: HTMLElement, soilId: string, demo?: { inputId: string }) {
+export function addForm(element: HTMLElement, soilId: string, env: "js" | "react" = "js", demo?: { inputId: string }) {
   const removeBorder = addBorder(element);
 
   const input = createStyledElement(
@@ -140,7 +140,7 @@ export function addForm(element: HTMLElement, soilId: string, demo?: { inputId: 
         event.preventDefault();
 
         if (!demo) {
-          sendMessage(soilId, input.value)
+          sendMessage({ soilId, message: input.value, env })
             .then(() => toast("Harvest time!"))
             .catch((e) => toast(e.message));
         }
