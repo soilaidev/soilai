@@ -30,6 +30,8 @@ function getResponseEnd(res) {
         res.writeHead(status);
         return function responseEnd(data) {
             soilAiDebug(`Ending response with data: ${data ? JSON.stringify(data) : "No data"}`);
+            if (!res.headersSent)
+                res.writeHead(status);
             res.end(data ? JSON.stringify(data) : undefined);
             return res;
         };
