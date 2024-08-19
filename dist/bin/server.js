@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
+//@ts-check
 const http_1 = require("http");
 const constants_1 = require("../constants");
 const soilai_request_1 = require("./soilai-request");

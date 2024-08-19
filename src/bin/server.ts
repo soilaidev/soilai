@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 //@ts-check
-import debug from "debug";
 import { createServer, type IncomingMessage, type ServerResponse } from "http";
 import { PORT } from "../constants";
 import { postToSoilAi } from "./soilai-request";
