@@ -6,4 +6,4 @@ const fileContents = await findFileWithSoilId("unique-soil-id");
 ```
 */
 export declare function findFileWithSoilId(soilId: string): Promise<Omit<SoilAiPayload, "message"> | null>;
-export declare function writeFile(filePath: string, contents: string): Promise<void>;
+export declare function writeToFile(filePath: string, contents: string): Promise<void>;

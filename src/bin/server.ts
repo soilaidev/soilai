@@ -5,7 +5,7 @@ import debug from "debug";
 import { createServer, type IncomingMessage, type ServerResponse } from "http";
 import { PORT } from "../constants";
 import { postToSoilAi } from "./soilai-request";
-import { findFileWithSoilId, writeFile } from "./find-file";
+import { findFileWithSoilId, writeToFile } from "./find-file";
 import { v4 as uuidv4 } from "uuid";
 import { InitialMessage, SoilAiPayload } from "../types";
 import { getNewNextFile } from "./new-page";
@@ -56,7 +56,7 @@ const processQueue = async (filePath: string, apiKey: string) => {
         throw new Error("Error: soilId not found in modified file contents");
       }
 
-      await writeFile(fileData.filePath, modifiedFileContents);
+      await writeToFile(fileData.filePath, modifiedFileContents);
 
       resolve({ success: true });
     } catch (error) {

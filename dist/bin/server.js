@@ -51,7 +51,7 @@ const processQueue = (filePath, apiKey) => __awaiter(void 0, void 0, void 0, fun
             if (!modifiedFileContents.includes(`data-soil-id="${data.soilId}"`)) {
                 throw new Error("Error: soilId not found in modified file contents");
             }
-            yield (0, find_file_1.writeFile)(fileData.filePath, modifiedFileContents);
+            yield (0, find_file_1.writeToFile)(fileData.filePath, modifiedFileContents);
             resolve({ success: true });
         }
         catch (error) {
@@ -102,7 +102,7 @@ const server = (0, http_1.createServer)((req, res) => {
                 if (!modifiedNewFileContents.includes(`data-soil-id="${newSoilId}"`)) {
                     throw new Error("Error: soilId not found in modified file contents");
                 }
-                yield (0, find_file_1.writeFile)(newFilePath, modifiedNewFileContents);
+                yield writeFile(newFilePath, modifiedNewFileContents);
             }
             else {
                 const fileData = yield (0, find_file_1.findFileWithSoilId)(soilId);

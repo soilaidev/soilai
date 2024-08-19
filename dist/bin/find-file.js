@@ -14,19 +14,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.findFileWithSoilId = findFileWithSoilId;
-exports.writeFile = writeFile;
+exports.writeToFile = writeToFile;
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const util_1 = require("util");
 const ignore_1 = __importDefault(require("ignore"));
 const readFile = (0, util_1.promisify)(fs_1.default.readFile);
 const readdir = (0, util_1.promisify)(fs_1.default.readdir);
+const mkdir = (0, util_1.promisify)(fs_1.default.mkdir);
+const writeFile = (0, util_1.promisify)(fs_1.default.writeFile);
 function getGitIgnore(rootDir) {
     return __awaiter(this, void 0, void 0, function* () {
         const gitIgnorePath = path_1.default.join(rootDir, ".gitignore");
         try {
             const gitIgnoreContent = yield readFile(gitIgnorePath, "utf8");
-            const ignorePatterns = gitIgnoreContent.split("\n").filter((line) => line.trim() !== "");
+            const ignorePatterns = gitIgnoreContent
+                .split("\n")
+                .filter((line) => line.trim() !== "");
             return (0, ignore_1.default)().add(["./README.md", "./readme.md", ...ignorePatterns]);
         }
         catch (error) {
@@ -71,11 +75,12 @@ function findFileWithSoilId(soilId) {
         return findFileWithSoilIdRecursive(currentDirectory, soilId, ig);
     });
 }
-function writeFile(filePath, contents) {
+function writeToFile(filePath, contents) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            // const formattedCode = await formatCodeWithPrettier(filePath, contents);
-            yield fs_1.default.promises.writeFile(filePath, contents);
+            const dir = path_1.default.dirname(filePath);
+            yield mkdir(dir, { recursive: true });
+            yield writeFile(filePath, contents);
             console.log(`Successfully wrote contents to ${filePath}`);
         }
         catch (error) {

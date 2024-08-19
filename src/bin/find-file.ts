@@ -8,12 +8,16 @@ import { SoilAiPayload } from "../types";
 
 const readFile = promisify(fs.readFile);
 const readdir = promisify(fs.readdir);
+const mkdir = promisify(fs.mkdir);
+const writeFile = promisify(fs.writeFile);
 
 async function getGitIgnore(rootDir: string): Promise<Ignore | null> {
   const gitIgnorePath = path.join(rootDir, ".gitignore");
   try {
     const gitIgnoreContent = await readFile(gitIgnorePath, "utf8");
-    const ignorePatterns = gitIgnoreContent.split("\n").filter((line) => line.trim() !== "");
+    const ignorePatterns = gitIgnoreContent
+      .split("\n")
+      .filter((line) => line.trim() !== "");
 
     return ignore().add(["./README.md", "./readme.md", ...ignorePatterns]);
   } catch (error) {
@@ -65,11 +69,14 @@ export async function findFileWithSoilId(soilId: string) {
   return findFileWithSoilIdRecursive(currentDirectory, soilId, ig);
 }
 
-export async function writeFile(filePath: string, contents: string): Promise<void> {
+export async function writeToFile(
+  filePath: string,
+  contents: string
+): Promise<void> {
   try {
-    // const formattedCode = await formatCodeWithPrettier(filePath, contents);
-
-    await fs.promises.writeFile(filePath, contents);
+    const dir = path.dirname(filePath);
+    await mkdir(dir, { recursive: true });
+    await writeFile(filePath, contents);
 
     console.log(`Successfully wrote contents to ${filePath}`);
   } catch (error) {
