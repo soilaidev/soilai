@@ -18,7 +18,7 @@ export function initializeSoilAi(env: "js" | "react" = "js") {
     }
   }
 
-  status().then((isServerRunning) => {
+  status().then((isServerRunning: boolean) => {
     if (!isServerRunning) return toast("Soil AI server is not running", true);
 
     document.addEventListener("click", eventListener);

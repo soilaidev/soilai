@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
+    "moduleResolution": "Node",
     // Set the target JavaScript version
     "target": "es5",
     // Module system, Rollup handles it
-    "module": "esnext",
+    "module": "ESNext",
     // Enable all strict type-checking options
     "strict": true,
     // Enables interop between CommonJS and ES Modules
@@ -15,5 +16,5 @@
     // Enforce consistent casing in import paths
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/dom/**/*"]
+  "include": ["src/**/*"]
 }

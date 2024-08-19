@@ -142,7 +142,7 @@ export function addForm(element: HTMLElement, soilId: string, env: "js" | "react
         if (!demo) {
           sendMessage({ soilId, message: input.value, env })
             .then(() => toast("Harvest time!"))
-            .catch((e) => toast(e.message));
+            .catch((e: Error) => toast(e.message));
         }
 
         setTimeout(() => {
