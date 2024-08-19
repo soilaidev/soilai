@@ -13,7 +13,11 @@ import { config } from "dotenv";
 
 config({ path: `.env.development` });
 
-const soilAiDebug = debug("soilai");
+const soilAiDebug = process.env.DEBUG?.includes("soilai")
+  ? (message: string, data?: unknown) => {
+      console.log(message, data);
+    }
+  : () => {};
 
 interface RequestQueueItem {
   data: SoilAiPayload;

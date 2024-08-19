@@ -9,12 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-//@ts-check
-const debug_1 = __importDefault(require("debug"));
 const http_1 = require("http");
 const constants_1 = require("../constants");
 const soilai_request_1 = require("./soilai-request");
@@ -23,7 +19,11 @@ const uuid_1 = require("uuid");
 const new_page_1 = require("./new-page");
 const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)({ path: `.env.development` });
-const soilAiDebug = (0, debug_1.default)("soilai");
+const soilAiDebug = ((_a = process.env.DEBUG) === null || _a === void 0 ? void 0 : _a.includes("soilai"))
+    ? (message, data) => {
+        console.log(message, data);
+    }
+    : () => { };
 const requestQueue = new Map();
 const processingFiles = new Set();
 function getResponseEnd(res) {
