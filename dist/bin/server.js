@@ -102,7 +102,7 @@ const server = (0, http_1.createServer)((req, res) => {
                 if (!modifiedNewFileContents.includes(`data-soil-id="${newSoilId}"`)) {
                     throw new Error("Error: soilId not found in modified file contents");
                 }
-                yield writeFile(newFilePath, modifiedNewFileContents);
+                yield (0, find_file_1.writeToFile)(newFilePath, modifiedNewFileContents);
             }
             else {
                 const fileData = yield (0, find_file_1.findFileWithSoilId)(soilId);

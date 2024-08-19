@@ -130,7 +130,7 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
           throw new Error("Error: soilId not found in modified file contents");
         }
 
-        await writeFile(newFilePath, modifiedNewFileContents);
+        await writeToFile(newFilePath, modifiedNewFileContents);
       } else {
         const fileData = await findFileWithSoilId(soilId);
         if (!fileData) throw Error("File with Soil ID not found");
