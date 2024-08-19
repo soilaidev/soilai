@@ -91,7 +91,7 @@ const server = (0, http_1.createServer)((req, res) => {
             if (!soilId || (typeof soilId !== "string" && pathname)) {
                 const newSoilId = (0, uuid_1.v4)();
                 const newFileContents = (0, new_page_1.getNewNextFile)(newSoilId);
-                const newFilePath = `/app${pathname}/page.tsx`;
+                const newFilePath = `./app${pathname}/page.tsx`;
                 const { modifiedFileContents: modifiedNewFileContents } = yield (0, soilai_request_1.postToSoilAi)({
                     message,
                     fileContents: newFileContents,

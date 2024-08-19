@@ -113,7 +113,7 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
 
         const newFileContents = getNewNextFile(newSoilId);
 
-        const newFilePath = `/app${pathname}/page.tsx`;
+        const newFilePath = `./app${pathname}/page.tsx`;
 
         const { modifiedFileContents: modifiedNewFileContents } =
           await postToSoilAi(
