@@ -1,3 +1,3 @@
 import { initializeSoilAi } from "./init";
 
-document.addEventListener("DOMContentLoaded", initializeSoilAi);
+document.addEventListener("DOMContentLoaded", () => initializeSoilAi("js"));

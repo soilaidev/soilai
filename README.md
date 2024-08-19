@@ -136,7 +136,7 @@ function App() {
 ```js
 import { initializeSoilAi } from "soilai";
 
-document.addEventListener("DOMContentLoaded", initializeSoilAi);
+document.addEventListener("DOMContentLoaded", () => initializeSoilAi());
 ```
 
 ## Contributing

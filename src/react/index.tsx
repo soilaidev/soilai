@@ -5,7 +5,7 @@ import { initializeSoilAi } from "../dom/init";
 export function useSoilAi() {
   useEffect(() => {
     if (location.hostname.includes("localhost")) {
-      const remove = initializeSoilAi();
+      const remove = initializeSoilAi("react");
 
       return () => {
         remove();
