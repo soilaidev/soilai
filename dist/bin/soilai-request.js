@@ -36,8 +36,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.postToSoilAi = postToSoilAi;
 const https = __importStar(require("https"));
 const url_1 = require("url");
-const dotenv_1 = require("dotenv");
-(0, dotenv_1.config)({ path: `.env.development` });
 const SOIL_SERVER = "https://soilai.dev/api/package";
 function postToSoilAi(payload, apiKey) {
     return __awaiter(this, void 0, void 0, function* () {

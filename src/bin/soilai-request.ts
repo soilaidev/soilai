@@ -2,12 +2,9 @@
 
 import * as https from "https";
 import { URL } from "url";
-import { config } from "dotenv";
 
 // Types
 import { SoilAiPayload, SoilAiResponse } from "../types";
-
-config({ path: `.env.development` });
 
 const SOIL_SERVER = "https://soilai.dev/api/package";
 

@@ -21,6 +21,8 @@ const soilai_request_1 = require("./soilai-request");
 const find_file_1 = require("./find-file");
 const uuid_1 = require("uuid");
 const new_page_1 = require("./new-page");
+const dotenv_1 = require("dotenv");
+(0, dotenv_1.config)({ path: `.env.development` });
 const soilAiDebug = (0, debug_1.default)("soilai");
 const requestQueue = new Map();
 const processingFiles = new Set();
@@ -63,12 +65,12 @@ const processQueue = (filePath, apiKey) => __awaiter(void 0, void 0, void 0, fun
             }
             soilAiDebug(`Writing modified contents to file: ${fileData.filePath}`);
             yield (0, find_file_1.writeToFile)(fileData.filePath, modifiedFileContents);
-            resolve({ success: true });
+            return resolve({ success: true });
         }
         catch (error) {
             soilAiDebug(`Error processing queue for file: ${filePath}`, error);
             if (error instanceof Error) {
-                reject({ success: false, error: error.message });
+                return reject({ success: false, error: error.message });
             }
         }
     }

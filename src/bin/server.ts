@@ -9,6 +9,9 @@ import { findFileWithSoilId, writeToFile } from "./find-file";
 import { v4 as uuidv4 } from "uuid";
 import { InitialMessage, SoilAiPayload } from "../types";
 import { getNewNextFile } from "./new-page";
+import { config } from "dotenv";
+
+config({ path: `.env.development` });
 
 const soilAiDebug = debug("soilai");
 
@@ -73,11 +76,11 @@ const processQueue = async (filePath: string, apiKey: string) => {
       soilAiDebug(`Writing modified contents to file: ${fileData.filePath}`);
       await writeToFile(fileData.filePath, modifiedFileContents);
 
-      resolve({ success: true });
+      return resolve({ success: true });
     } catch (error) {
       soilAiDebug(`Error processing queue for file: ${filePath}`, error);
       if (error instanceof Error) {
-        reject({ success: false, error: error.message });
+        return reject({ success: false, error: error.message });
       }
     }
   }
