@@ -1,12 +1,12 @@
 export function getNewNextFile(soilId: string) {
   return `export default function Page() {
   return (
-    <section 
+    <div 
       data-soil-id="${soilId}" 
       className="bg-white text-black dark:bg-black dark:text-white flex flex-col items-center justify-center min-h-screen p-4"
     >
       <h1>New Page Contents</h1>
-    </section>
+    </div>
   );
 }
 `;
