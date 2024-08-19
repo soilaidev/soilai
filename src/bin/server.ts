@@ -31,7 +31,7 @@ function getResponseEnd(res: ServerResponse) {
   };
 }
 
-const processQueue = async (filePath: string) => {
+const processQueue = async (filePath: string, apiKey: string) => {
   if (processingFiles.has(filePath)) return;
   const queue = requestQueue.get(filePath);
   if (!queue || queue.length === 0) return;
@@ -45,7 +45,13 @@ const processQueue = async (filePath: string) => {
       const fileData = await findFileWithSoilId(data.soilId);
       if (!fileData) throw new Error("File with Soil ID not found");
 
-      const { modifiedFileContents } = await postToSoilAi({ ...fileData, message: data.message });
+      const { modifiedFileContents } = await postToSoilAi(
+        {
+          ...fileData,
+          message: data.message,
+        },
+        apiKey
+      );
       if (!modifiedFileContents.includes(`data-soil-id="${data.soilId}"`)) {
         throw new Error("Error: soilId not found in modified file contents");
       }
@@ -68,16 +74,28 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
 
   // Set CORS headers
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
-  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With,content-type");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With,content-type"
+  );
+
+  const apiKey = process.env.SOILAI_API_KEY;
+  if (!apiKey) throw Error("SOILAI_API_KEY is not defined in .env.development");
 
   const responseStatus = getResponseEnd(res);
 
-  if (req.method === "GET") return responseStatus()();
+  if (req.method === "GET" && req.url === "/") {
+    return responseStatus()();
+  }
 
   if (req.method === "OPTIONS") return responseStatus(204)();
 
-  if (req.method !== "POST" || req.url !== "/") return responseStatus(404)({ success: false, error: "Not found" });
+  if (req.method !== "POST" || req.url !== "/")
+    return responseStatus(404)({ success: false, error: "Not found" });
 
   let body = "";
 
@@ -97,13 +115,17 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
 
         const newFilePath = `/app${pathname}/page.tsx`;
 
-        const { modifiedFileContents: modifiedNewFileContents } = await postToSoilAi({
-          message,
-          fileContents: newFileContents,
-          filePath: newFilePath,
-          fileExt: "tsx",
-          soilId: newSoilId,
-        });
+        const { modifiedFileContents: modifiedNewFileContents } =
+          await postToSoilAi(
+            {
+              message,
+              fileContents: newFileContents,
+              filePath: newFilePath,
+              fileExt: "tsx",
+              soilId: newSoilId,
+            },
+            apiKey
+          );
         if (!modifiedNewFileContents.includes(`data-soil-id="${newSoilId}"`)) {
           throw new Error("Error: soilId not found in modified file contents");
         }
@@ -121,17 +143,20 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
           if (!requestQueue.has(filePath)) {
             requestQueue.set(filePath, []);
           }
-          requestQueue.get(filePath)!.push({ data: { ...fileData, message }, resolve, reject });
+          requestQueue
+            .get(filePath)!
+            .push({ data: { ...fileData, message }, resolve, reject });
 
           // Start processing the queue
-          processQueue(filePath);
+          processQueue(filePath, apiKey);
         });
 
         // Send the response when the queue promise resolves or rejects
         queuePromise.then(responseStatus()).catch(responseStatus(400));
       }
     } catch (error) {
-      if (error instanceof Error) return responseStatus(400)({ success: false, error: error.message });
+      if (error instanceof Error)
+        return responseStatus(400)({ success: false, error: error.message });
     }
   });
 });

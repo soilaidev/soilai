@@ -39,11 +39,8 @@ const url_1 = require("url");
 const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)({ path: `.env.development` });
 const SOIL_SERVER = "https://soilai.dev/api/package";
-function postToSoilAi(payload) {
+function postToSoilAi(payload, apiKey) {
     return __awaiter(this, void 0, void 0, function* () {
-        const apiKey = process.env.SOILAI_API_KEY;
-        if (!apiKey)
-            throw Error("SOILAI_API_KEY is not defined in .env.development");
         const url = new url_1.URL(`${SOIL_SERVER}?apiKey=${apiKey}`);
         const data = JSON.stringify(payload);
         const options = {

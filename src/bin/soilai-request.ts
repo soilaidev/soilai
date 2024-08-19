@@ -11,10 +11,10 @@ config({ path: `.env.development` });
 
 const SOIL_SERVER = "https://soilai.dev/api/package";
 
-export async function postToSoilAi(payload: SoilAiPayload): Promise<SoilAiResponse> {
-  const apiKey = process.env.SOILAI_API_KEY;
-  if (!apiKey) throw Error("SOILAI_API_KEY is not defined in .env.development");
-
+export async function postToSoilAi(
+  payload: SoilAiPayload,
+  apiKey: string
+): Promise<SoilAiResponse> {
   const url = new URL(`${SOIL_SERVER}?apiKey=${apiKey}`);
   const data = JSON.stringify(payload);
 
@@ -38,7 +38,11 @@ export async function postToSoilAi(payload: SoilAiPayload): Promise<SoilAiRespon
         if (res.statusCode && res.statusCode >= 200 && res.statusCode < 400) {
           resolve(JSON.parse(responseData) as SoilAiResponse);
         } else {
-          reject(new Error(`Request failed with status code ${res.statusCode}: ${responseData}`));
+          reject(
+            new Error(
+              `Request failed with status code ${res.statusCode}: ${responseData}`
+            )
+          );
         }
       });
     });

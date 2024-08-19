@@ -33,7 +33,7 @@ function getResponseEnd(res) {
         };
     };
 }
-const processQueue = (filePath) => __awaiter(void 0, void 0, void 0, function* () {
+const processQueue = (filePath, apiKey) => __awaiter(void 0, void 0, void 0, function* () {
     if (processingFiles.has(filePath))
         return;
     const queue = requestQueue.get(filePath);
@@ -47,7 +47,7 @@ const processQueue = (filePath) => __awaiter(void 0, void 0, void 0, function* (
             const fileData = yield (0, find_file_1.findFileWithSoilId)(data.soilId);
             if (!fileData)
                 throw new Error("File with Soil ID not found");
-            const { modifiedFileContents } = yield (0, soilai_request_1.postToSoilAi)(Object.assign(Object.assign({}, fileData), { message: data.message }));
+            const { modifiedFileContents } = yield (0, soilai_request_1.postToSoilAi)(Object.assign(Object.assign({}, fileData), { message: data.message }), apiKey);
             if (!modifiedFileContents.includes(`data-soil-id="${data.soilId}"`)) {
                 throw new Error("Error: soilId not found in modified file contents");
             }
@@ -68,9 +68,13 @@ const server = (0, http_1.createServer)((req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
     res.setHeader("Access-Control-Allow-Headers", "X-Requested-With,content-type");
+    const apiKey = process.env.SOILAI_API_KEY;
+    if (!apiKey)
+        throw Error("SOILAI_API_KEY is not defined in .env.development");
     const responseStatus = getResponseEnd(res);
-    if (req.method === "GET")
+    if (req.method === "GET" && req.url === "/") {
         return responseStatus()();
+    }
     if (req.method === "OPTIONS")
         return responseStatus(204)();
     if (req.method !== "POST" || req.url !== "/")
@@ -94,7 +98,7 @@ const server = (0, http_1.createServer)((req, res) => {
                     filePath: newFilePath,
                     fileExt: "tsx",
                     soilId: newSoilId,
-                });
+                }, apiKey);
                 if (!modifiedNewFileContents.includes(`data-soil-id="${newSoilId}"`)) {
                     throw new Error("Error: soilId not found in modified file contents");
                 }
@@ -111,9 +115,11 @@ const server = (0, http_1.createServer)((req, res) => {
                     if (!requestQueue.has(filePath)) {
                         requestQueue.set(filePath, []);
                     }
-                    requestQueue.get(filePath).push({ data: Object.assign(Object.assign({}, fileData), { message }), resolve, reject });
+                    requestQueue
+                        .get(filePath)
+                        .push({ data: Object.assign(Object.assign({}, fileData), { message }), resolve, reject });
                     // Start processing the queue
-                    processQueue(filePath);
+                    processQueue(filePath, apiKey);
                 });
                 // Send the response when the queue promise resolves or rejects
                 queuePromise.then(responseStatus()).catch(responseStatus(400));
