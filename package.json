@@ -1,7 +1,7 @@
 {
   "name": "soilai",
   "version": "0.0.22",
-  "description": "Optimizing Next.js development",
+  "description": "Smart-brained text-based code-gen",
   "author": "Daniel Murawsky",
   "homepage": "https://soilai.dev",
   "repository": {
