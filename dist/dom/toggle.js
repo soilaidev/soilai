@@ -9,7 +9,12 @@ function createToggle(settings) {
         bottom: "15px",
         right: "15px",
     }, { id: constants_1.TOGGLE_CONTAINER_ID });
-    const checkbox = (0, create_element_1.createStyledElement)("input", {}, { type: "checkbox", id: "soilAiCheckbox", alt: "Soil AI" });
+    const checkbox = (0, create_element_1.createStyledElement)("input", {}, {
+        type: "checkbox",
+        id: "soilAiCheckbox",
+        alt: "Soil AI",
+        checked: settings.enabled,
+    });
     checkbox.addEventListener("change", () => {
         var _a, _b;
         settings.enabled = checkbox.checked;

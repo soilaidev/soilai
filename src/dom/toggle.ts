@@ -20,7 +20,12 @@ export function createToggle(settings: SoilAiSettings) {
   const checkbox = createStyledElement(
     "input",
     {},
-    { type: "checkbox", id: "soilAiCheckbox", alt: "Soil AI" }
+    {
+      type: "checkbox",
+      id: "soilAiCheckbox",
+      alt: "Soil AI",
+      checked: settings.enabled,
+    }
   );
   checkbox.addEventListener("change", () => {
     settings.enabled = checkbox.checked;
