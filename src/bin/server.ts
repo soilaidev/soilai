@@ -168,7 +168,7 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
             },
             apiKey
           );
-        if (!modifiedNewFileContents.includes(`data-soil-id="${newSoilId}"`)) {
+        if (!modifiedNewFileContents.includes(newSoilId)) {
           soilAiDebug("Error: soilId not found in modified file contents");
           throw new Error("Error: soilId not found in modified file contents");
         }
