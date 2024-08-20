@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 import { InitialMessage, SoilAiPayload } from "../types";
 import { getNewNextFile } from "./new-page";
 import { config } from "dotenv";
+import net from "net";
 
 config({ path: `.env.development` });
 
@@ -213,6 +214,32 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
   });
 });
 
-server.listen(PORT, () => {
-  console.log(`Soil dev server is listening on port ${PORT}`);
+function checkPortAvailability(port: number): Promise<boolean> {
+  return new Promise((resolve) => {
+    const server = net
+      .createServer()
+      .once("error", () => resolve(false))
+      .once("listening", () => {
+        server.close();
+        resolve(true);
+      })
+      .listen(port);
+  });
+}
+
+async function findAvailablePort(startPort: number): Promise<number> {
+  let port = startPort;
+  while (true) {
+    const isAvailable = await checkPortAvailability(port);
+    if (isAvailable) {
+      return port;
+    }
+    port++;
+  }
+}
+
+findAvailablePort(PORT).then((availablePort) => {
+  server.listen(availablePort, () => {
+    console.log(`Soil dev server is listening on port ${availablePort}`);
+  });
 });

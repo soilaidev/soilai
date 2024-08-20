@@ -8,6 +8,10 @@ function createToggle(settings) {
         position: "fixed",
         bottom: "15px",
         right: "15px",
+        zIndex: "9999",
+        backgroundColor: "black",
+        borderRadius: "5px",
+        padding: "8px",
     }, { id: constants_1.TOGGLE_CONTAINER_ID });
     const checkbox = (0, create_element_1.createStyledElement)("input", {}, {
         type: "checkbox",

@@ -9,6 +9,10 @@ export function createToggle(settings: SoilAiSettings) {
       position: "fixed",
       bottom: "15px",
       right: "15px",
+      zIndex: "9999",
+      backgroundColor: "black",
+      borderRadius: "5px",
+      padding: "8px",
     },
     { id: TOGGLE_CONTAINER_ID }
   );

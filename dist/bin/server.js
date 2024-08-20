@@ -9,6 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 //@ts-check
@@ -19,6 +22,7 @@ const find_file_1 = require("./find-file");
 const uuid_1 = require("uuid");
 const new_page_1 = require("./new-page");
 const dotenv_1 = require("dotenv");
+const net_1 = __importDefault(require("net"));
 (0, dotenv_1.config)({ path: `.env.development` });
 const soilAiDebug = ((_a = process.env.DEBUG) === null || _a === void 0 ? void 0 : _a.includes("soilai"))
     ? (message, data) => {
@@ -173,6 +177,32 @@ const server = (0, http_1.createServer)((req, res) => {
         }
     }));
 });
-server.listen(constants_1.PORT, () => {
-    console.log(`Soil dev server is listening on port ${constants_1.PORT}`);
+function checkPortAvailability(port) {
+    return new Promise((resolve) => {
+        const server = net_1.default
+            .createServer()
+            .once("error", () => resolve(false))
+            .once("listening", () => {
+            server.close();
+            resolve(true);
+        })
+            .listen(port);
+    });
+}
+function findAvailablePort(startPort) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let port = startPort;
+        while (true) {
+            const isAvailable = yield checkPortAvailability(port);
+            if (isAvailable) {
+                return port;
+            }
+            port++;
+        }
+    });
+}
+findAvailablePort(constants_1.PORT).then((availablePort) => {
+    server.listen(availablePort, () => {
+        console.log(`Soil dev server is listening on port ${availablePort}`);
+    });
 });
