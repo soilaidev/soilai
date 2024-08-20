@@ -14,7 +14,7 @@ function addBorder(element) {
     };
     // Set new styles
     // element.style.border = "2px dashed black";
-    element.style.border = "3px dashed #aaa";
+    element.style.border = "2px dashed #aaa";
     // Remove the border after a short delay (e.g., 1 second)
     return function removeBorder() {
         element.style.border = originalStyle.border;
