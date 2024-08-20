@@ -14,7 +14,8 @@ config({ path: `.env.development` });
 
 const soilAiDebug = process.env.DEBUG?.includes("soilai")
   ? (message: string, data?: unknown) => {
-      console.log(message, data);
+      if (data) console.log(message, data);
+      else console.log(message);
     }
   : () => {};
 

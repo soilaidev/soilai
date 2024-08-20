@@ -22,7 +22,10 @@ const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)({ path: `.env.development` });
 const soilAiDebug = ((_a = process.env.DEBUG) === null || _a === void 0 ? void 0 : _a.includes("soilai"))
     ? (message, data) => {
-        console.log(message, data);
+        if (data)
+            console.log(message, data);
+        else
+            console.log(message);
     }
     : () => { };
 const requestQueue = new Map();
