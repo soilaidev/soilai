@@ -16,4 +16,5 @@ export type SoilAiResponse = {
 };
 export type SoilAiSettings = {
     enabled: boolean;
+    removeAll?: () => void;
 };

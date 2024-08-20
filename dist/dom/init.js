@@ -17,8 +17,9 @@ function initializeSoilAi(env = "js") {
         const soilElement = target.closest("[data-soil-id]");
         if (soilElement) {
             const soilId = soilElement.getAttribute("data-soil-id");
-            if (soilId)
-                (0, add_1.addForm)(soilElement, soilId, env);
+            if (soilId) {
+                soilAiSettings.removeAll = (0, add_1.addForm)(soilElement, soilId, env);
+            }
         }
     }
     (0, api_1.status)().then((isServerRunning) => {

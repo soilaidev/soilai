@@ -1,8 +1,4 @@
-import {
-  BACKGROUND_ID,
-  FORM_CONTAINER_ID,
-  TOGGLE_CONTAINER_ID,
-} from "../constants";
+import { TOGGLE_CONTAINER_ID } from "../constants";
 import { SoilAiSettings } from "../types";
 import { createStyledElement } from "./create-element";
 
@@ -29,10 +25,7 @@ export function createToggle(settings: SoilAiSettings) {
   );
   checkbox.addEventListener("change", () => {
     settings.enabled = checkbox.checked;
-    if (!checkbox.checked) {
-      document.getElementById(FORM_CONTAINER_ID)?.remove();
-      document.getElementById(BACKGROUND_ID)?.remove();
-    }
+    if (!checkbox.checked) settings.removeAll?.();
   });
 
   const label = createStyledElement(

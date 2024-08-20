@@ -16,12 +16,10 @@ function createToggle(settings) {
         checked: settings.enabled,
     });
     checkbox.addEventListener("change", () => {
-        var _a, _b;
+        var _a;
         settings.enabled = checkbox.checked;
-        if (!checkbox.checked) {
-            (_a = document.getElementById(constants_1.FORM_CONTAINER_ID)) === null || _a === void 0 ? void 0 : _a.remove();
-            (_b = document.getElementById(constants_1.BACKGROUND_ID)) === null || _b === void 0 ? void 0 : _b.remove();
-        }
+        if (!checkbox.checked)
+            (_a = settings.removeAll) === null || _a === void 0 ? void 0 : _a.call(settings);
     });
     const label = (0, create_element_1.createStyledElement)("label", { marginRight: "5px" }, { htmlFor: "soilAiCheckbox", textContent: "Soil AI" });
     container.appendChild(label);

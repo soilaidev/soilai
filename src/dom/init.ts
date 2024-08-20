@@ -20,7 +20,9 @@ export function initializeSoilAi(env: "js" | "react" = "js") {
 
     if (soilElement) {
       const soilId = soilElement.getAttribute("data-soil-id");
-      if (soilId) addForm(soilElement, soilId, env);
+      if (soilId) {
+        soilAiSettings.removeAll = addForm(soilElement, soilId, env);
+      }
     }
   }
 
