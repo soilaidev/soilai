@@ -25,9 +25,6 @@ interface RequestQueueItem {
   reject: (reason?: any) => void;
 }
 
-const requestQueue: Map<string, RequestQueueItem[]> = new Map();
-const processingFiles: Set<string> = new Set();
-
 function getResponseEnd(res: ServerResponse) {
   return function responseStatus(status = 200) {
     soilAiDebug(`Setting response status: ${status}`);
@@ -42,6 +39,9 @@ function getResponseEnd(res: ServerResponse) {
     };
   };
 }
+
+const requestQueue: Map<string, RequestQueueItem[]> = new Map();
+const processingFiles: Set<string> = new Set();
 
 const processQueue = async (filePath: string, apiKey: string) => {
   if (processingFiles.has(filePath)) {
@@ -60,11 +60,10 @@ const processQueue = async (filePath: string, apiKey: string) => {
   while (queue.length > 0) {
     const { data, resolve, reject } = queue.shift()!;
     try {
-      soilAiDebug("Processing data:", data);
+      soilAiDebug("Processing data with soilId:", data.soilId);
       const fileData = await findFileWithSoilId(data.soilId);
       if (!fileData) throw new Error("File with Soil ID not found");
 
-      soilAiDebug(`Posting to SoilAI with data: ${JSON.stringify(data)}`);
       const { modifiedFileContents } = await postToSoilAi(
         {
           ...fileData,

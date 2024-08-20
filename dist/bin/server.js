@@ -28,8 +28,6 @@ const soilAiDebug = ((_a = process.env.DEBUG) === null || _a === void 0 ? void 0
             console.log(message);
     }
     : () => { };
-const requestQueue = new Map();
-const processingFiles = new Set();
 function getResponseEnd(res) {
     return function responseStatus(status = 200) {
         soilAiDebug(`Setting response status: ${status}`);
@@ -43,6 +41,8 @@ function getResponseEnd(res) {
         };
     };
 }
+const requestQueue = new Map();
+const processingFiles = new Set();
 const processQueue = (filePath, apiKey) => __awaiter(void 0, void 0, void 0, function* () {
     if (processingFiles.has(filePath)) {
         soilAiDebug(`Already processing file: ${filePath}`);
@@ -58,11 +58,10 @@ const processQueue = (filePath, apiKey) => __awaiter(void 0, void 0, void 0, fun
     while (queue.length > 0) {
         const { data, resolve, reject } = queue.shift();
         try {
-            soilAiDebug("Processing data:", data);
+            soilAiDebug("Processing data with soilId:", data.soilId);
             const fileData = yield (0, find_file_1.findFileWithSoilId)(data.soilId);
             if (!fileData)
                 throw new Error("File with Soil ID not found");
-            soilAiDebug(`Posting to SoilAI with data: ${JSON.stringify(data)}`);
             const { modifiedFileContents } = yield (0, soilai_request_1.postToSoilAi)(Object.assign(Object.assign({}, fileData), { message: data.message }), apiKey);
             if (!modifiedFileContents.includes(`data-soil-id="${data.soilId}"`)) {
                 throw new Error("Error: soilId not found in modified file contents");
