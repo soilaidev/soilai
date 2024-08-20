@@ -11,21 +11,13 @@ function addBorder(element) {
     // Save original styles
     const originalStyle = {
         border: element.style.border,
-        boxShadow: element.style.boxShadow,
-        transform: element.style.transform,
-        transition: element.style.transition,
     };
     // Set new styles
     // element.style.border = "2px dashed black";
-    element.style.transition = "box-shadow 0.2s ease";
-    element.style.boxShadow =
-        "inset 0 2px 5px rgba(0, 0, 0, 0.6), inset 0 -2px 5px rgba(255, 255, 255, 0.6)";
+    element.style.border = "3px dashed #aaa";
     // Remove the border after a short delay (e.g., 1 second)
     return function removeBorder() {
         element.style.border = originalStyle.border;
-        element.style.boxShadow = originalStyle.boxShadow;
-        element.style.transform = originalStyle.transform;
-        element.style.transition = originalStyle.transition;
     };
 }
 function addForm(element, soilId, env = "js", demo) {
