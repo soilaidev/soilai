@@ -1,4 +1,4 @@
-import { CONTAINER_ID } from "../constants";
+import { BACKGROUND_ID, FORM_CONTAINER_ID } from "../constants";
 import { createStyledElement } from "./create-element";
 import { sendMessage } from "../api";
 import { SendIcon } from "./send-icon";
@@ -18,7 +18,8 @@ function addBorder(element: HTMLElement) {
   // Set new styles
   // element.style.border = "2px dashed black";
   element.style.transition = "box-shadow 0.2s ease";
-  element.style.boxShadow = "inset 0 2px 5px rgba(0, 0, 0, 0.6), inset 0 -2px 5px rgba(255, 255, 255, 0.6)";
+  element.style.boxShadow =
+    "inset 0 2px 5px rgba(0, 0, 0, 0.6), inset 0 -2px 5px rgba(255, 255, 255, 0.6)";
 
   // Remove the border after a short delay (e.g., 1 second)
   return function removeBorder() {
@@ -29,7 +30,12 @@ function addBorder(element: HTMLElement) {
   };
 }
 
-export function addForm(element: HTMLElement, soilId: string, env: "js" | "react" = "js", demo?: { inputId: string }) {
+export function addForm(
+  element: HTMLElement,
+  soilId: string,
+  env: "js" | "react" = "js",
+  demo?: { inputId: string }
+) {
   const removeBorder = addBorder(element);
 
   const input = createStyledElement(
@@ -109,18 +115,22 @@ export function addForm(element: HTMLElement, soilId: string, env: "js" | "react
       top,
       left,
     },
-    { id: CONTAINER_ID }
+    { id: FORM_CONTAINER_ID }
   );
 
-  const background = createStyledElement("div", {
-    position: "absolute",
-    zIndex: "998",
-    top: "0px",
-    right: "0px",
-    bottom: "0px",
-    left: "0px",
-    // backgroundColor: "rgba(0, 0, 0, 0.3)",
-  });
+  const background = createStyledElement(
+    "div",
+    {
+      position: "absolute",
+      zIndex: "998",
+      top: "0px",
+      right: "0px",
+      bottom: "0px",
+      left: "0px",
+      // backgroundColor: "rgba(0, 0, 0, 0.3)",
+    },
+    { id: BACKGROUND_ID }
+  );
 
   function removeAll() {
     removeBorder();

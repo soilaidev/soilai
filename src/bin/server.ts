@@ -215,5 +215,5 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
 });
 
 server.listen(PORT, () => {
-  soilAiDebug(`Soil dev server is listening on port ${PORT}`);
+  console.log(`Soil dev server is listening on port ${PORT}`);
 });

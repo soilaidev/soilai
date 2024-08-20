@@ -3,7 +3,7 @@ export function getNewNextFile(soilId: string) {
   return (
     <div 
       data-soil-id="${soilId}" 
-      className="bg-white text-black dark:bg-black dark:text-white flex flex-col items-center justify-center min-h-screen p-4"
+      className="text-black dark:text-white flex flex-col items-center justify-center min-h-screen p-4"
     >
       <h1>New Page Contents</h1>
     </div>

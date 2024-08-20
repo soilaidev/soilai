@@ -1,11 +1,17 @@
-import { CONTAINER_ID } from "../constants";
+import { FORM_CONTAINER_ID } from "../constants";
 import { addForm } from "./add";
 import { status } from "../api";
 import { toast } from "./toast";
+import { SoilAiSettings } from "../types";
+import { createToggle } from "./toggle";
+
+const soilAiSettings: SoilAiSettings = { enabled: true };
 
 export function initializeSoilAi(env: "js" | "react" = "js") {
   function eventListener(event: MouseEvent) {
-    if (document.getElementById(CONTAINER_ID)) return;
+    if (document.getElementById(FORM_CONTAINER_ID) || !soilAiSettings.enabled) {
+      return;
+    }
 
     const target = event.target as HTMLElement;
 
@@ -20,6 +26,8 @@ export function initializeSoilAi(env: "js" | "react" = "js") {
 
   status().then((isServerRunning: boolean) => {
     if (!isServerRunning) return toast("Soil AI server is not running", true);
+
+    createToggle(soilAiSettings);
 
     document.addEventListener("click", eventListener);
   });

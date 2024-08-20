@@ -175,5 +175,5 @@ const server = (0, http_1.createServer)((req, res) => {
     }));
 });
 server.listen(constants_1.PORT, () => {
-    soilAiDebug(`Soil dev server is listening on port ${constants_1.PORT}`);
+    console.log(`Soil dev server is listening on port ${constants_1.PORT}`);
 });

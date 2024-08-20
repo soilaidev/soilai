@@ -18,7 +18,8 @@ function addBorder(element) {
     // Set new styles
     // element.style.border = "2px dashed black";
     element.style.transition = "box-shadow 0.2s ease";
-    element.style.boxShadow = "inset 0 2px 5px rgba(0, 0, 0, 0.6), inset 0 -2px 5px rgba(255, 255, 255, 0.6)";
+    element.style.boxShadow =
+        "inset 0 2px 5px rgba(0, 0, 0, 0.6), inset 0 -2px 5px rgba(255, 255, 255, 0.6)";
     // Remove the border after a short delay (e.g., 1 second)
     return function removeBorder() {
         element.style.border = originalStyle.border;
@@ -93,7 +94,7 @@ function addForm(element, soilId, env = "js", demo) {
         maxWidth: "100%",
         top,
         left,
-    }, { id: constants_1.CONTAINER_ID });
+    }, { id: constants_1.FORM_CONTAINER_ID });
     const background = (0, create_element_1.createStyledElement)("div", {
         position: "absolute",
         zIndex: "998",
@@ -102,7 +103,7 @@ function addForm(element, soilId, env = "js", demo) {
         bottom: "0px",
         left: "0px",
         // backgroundColor: "rgba(0, 0, 0, 0.3)",
-    });
+    }, { id: constants_1.BACKGROUND_ID });
     function removeAll() {
         removeBorder();
         container.remove();
