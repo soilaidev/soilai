@@ -68,12 +68,12 @@ const processQueue = (filePath, apiKey) => __awaiter(void 0, void 0, void 0, fun
             }
             soilAiDebug(`Writing modified contents to file: ${fileData.filePath}`);
             yield (0, find_file_1.writeToFile)(fileData.filePath, modifiedFileContents);
-            return resolve({ success: true });
+            resolve({ success: true });
         }
         catch (error) {
             soilAiDebug(`Error processing queue for file: ${filePath}`, error);
             if (error instanceof Error) {
-                return reject({ success: false, error: error.message });
+                reject({ success: false, error: error.message });
             }
         }
     }

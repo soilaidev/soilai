@@ -79,11 +79,11 @@ const processQueue = async (filePath: string, apiKey: string) => {
       soilAiDebug(`Writing modified contents to file: ${fileData.filePath}`);
       await writeToFile(fileData.filePath, modifiedFileContents);
 
-      return resolve({ success: true });
+      resolve({ success: true });
     } catch (error) {
       soilAiDebug(`Error processing queue for file: ${filePath}`, error);
       if (error instanceof Error) {
-        return reject({ success: false, error: error.message });
+        reject({ success: false, error: error.message });
       }
     }
   }
