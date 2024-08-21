@@ -9,9 +9,10 @@ function createToggle(settings) {
         bottom: "15px",
         right: "15px",
         zIndex: "9999",
+        color: "white",
         backgroundColor: "black",
         borderRadius: "5px",
-        padding: "8px",
+        padding: "6px",
     }, { id: constants_1.TOGGLE_CONTAINER_ID });
     const checkbox = (0, create_element_1.createStyledElement)("input", {}, {
         type: "checkbox",

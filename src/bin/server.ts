@@ -29,12 +29,11 @@ interface RequestQueueItem {
 function getResponseEnd(res: ServerResponse) {
   return function responseStatus(status = 200) {
     soilAiDebug(`Setting response status: ${status}`);
-    res.writeHead(status);
+    if (!res.headersSent) res.writeHead(status);
     return function responseEnd(data?: unknown) {
       soilAiDebug(
         `Ending response with data: ${data ? JSON.stringify(data) : "No data"}`
       );
-      if (!res.headersSent) res.writeHead(status);
       res.end(data ? JSON.stringify(data) : undefined);
       return res;
     };

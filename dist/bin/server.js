@@ -35,11 +35,10 @@ const soilAiDebug = ((_a = process.env.DEBUG) === null || _a === void 0 ? void 0
 function getResponseEnd(res) {
     return function responseStatus(status = 200) {
         soilAiDebug(`Setting response status: ${status}`);
-        res.writeHead(status);
+        if (!res.headersSent)
+            res.writeHead(status);
         return function responseEnd(data) {
             soilAiDebug(`Ending response with data: ${data ? JSON.stringify(data) : "No data"}`);
-            if (!res.headersSent)
-                res.writeHead(status);
             res.end(data ? JSON.stringify(data) : undefined);
             return res;
         };
