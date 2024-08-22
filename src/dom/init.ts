@@ -5,11 +5,14 @@ import { toast } from "./toast";
 import { SoilAiSettings } from "../types";
 import { createToggle } from "./toggle";
 
-const soilAiSettings: SoilAiSettings = { enabled: true };
+const soilAiSettings: SoilAiSettings = {};
 
 export function initializeSoilAi(env: "js" | "react" = "js") {
   function eventListener(event: MouseEvent) {
-    if (document.getElementById(FORM_CONTAINER_ID) || !soilAiSettings.enabled) {
+    if (
+      document.getElementById(FORM_CONTAINER_ID) ||
+      localStorage.getItem("soilAiEnabled") === "false"
+    ) {
       return;
     }
 

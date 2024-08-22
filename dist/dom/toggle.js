@@ -18,11 +18,11 @@ function createToggle(settings) {
         type: "checkbox",
         id: "soilAiCheckbox",
         alt: "Soil AI",
-        checked: settings.enabled,
+        checked: localStorage.getItem("soilAiEnabled") !== "false",
     });
     checkbox.addEventListener("change", () => {
         var _a;
-        settings.enabled = checkbox.checked;
+        localStorage.setItem("soilAiEnabled", checkbox.checked.toString());
         if (!checkbox.checked)
             (_a = settings.removeAll) === null || _a === void 0 ? void 0 : _a.call(settings);
     });

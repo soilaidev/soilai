@@ -15,6 +15,5 @@ export type SoilAiResponse = {
     modifiedFileContents: string;
 };
 export type SoilAiSettings = {
-    enabled: boolean;
     removeAll?: () => void;
 };

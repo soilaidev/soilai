@@ -6,10 +6,11 @@ const add_1 = require("./add");
 const api_1 = require("../api");
 const toast_1 = require("./toast");
 const toggle_1 = require("./toggle");
-const soilAiSettings = { enabled: true };
+const soilAiSettings = {};
 function initializeSoilAi(env = "js") {
     function eventListener(event) {
-        if (document.getElementById(constants_1.FORM_CONTAINER_ID) || !soilAiSettings.enabled) {
+        if (document.getElementById(constants_1.FORM_CONTAINER_ID) ||
+            localStorage.getItem("soilAiEnabled") === "false") {
             return;
         }
         const target = event.target;
