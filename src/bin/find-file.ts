@@ -5,6 +5,7 @@ import path from "path";
 import { promisify } from "util";
 import ignore, { Ignore } from "ignore";
 import { SoilAiPayload } from "../types";
+import { getNewNextFile } from "./new-page";
 
 const readFile = promisify(fs.readFile);
 const readdir = promisify(fs.readdir);
@@ -82,4 +83,15 @@ export async function writeToFile(
   } catch (error) {
     console.error(`Error writing contents to ${filePath}:`, error);
   }
+}
+
+export async function getSoilPageTemplate(newSoilId: string) {
+  const soilPageTemplate = await readFile("./templates/page.tsx", "utf8").catch(
+    () => null
+  );
+
+  return (
+    soilPageTemplate?.replace("{{SOIL_ID}}", newSoilId) ||
+    getNewNextFile(newSoilId)
+  );
 }

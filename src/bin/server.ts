@@ -4,12 +4,16 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "http";
 import { PORT } from "../constants";
 import { postToSoilAi } from "./soilai-request";
-import { findFileWithSoilId, writeToFile } from "./find-file";
+import {
+  findFileWithSoilId,
+  getSoilPageTemplate,
+  writeToFile,
+} from "./find-file";
 import { v4 as uuidv4 } from "uuid";
 import { InitialMessage, SoilAiPayload } from "../types";
-import { getNewNextFile } from "./new-page";
 import { config } from "dotenv";
 import net from "net";
+import fs from "net";
 
 config({ path: `.env.development` });
 
@@ -152,7 +156,7 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
         soilAiDebug("Creating new Soil ID and file");
         const newSoilId = uuidv4();
 
-        const newFileContents = getNewNextFile(newSoilId);
+        const newFileContents = await getSoilPageTemplate(newSoilId);
 
         const newFilePath = `./app${pathname}/page.tsx`;
 
