@@ -13,7 +13,6 @@ import { v4 as uuidv4 } from "uuid";
 import { InitialMessage, SoilAiPayload } from "../types";
 import { config } from "dotenv";
 import net from "net";
-import fs from "net";
 
 config({ path: `.env.development` });
 
@@ -187,7 +186,7 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
           throw Error("File with Soil ID not found");
         }
 
-        const filePath = fileData.filePath;
+        const { filePath } = fileData;
 
         // Create a new promise to handle the response
         const queuePromise = new Promise((resolve, reject) => {

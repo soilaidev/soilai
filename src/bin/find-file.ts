@@ -77,7 +77,7 @@ export async function writeToFile(
   try {
     const dir = path.dirname(filePath);
     await mkdir(dir, { recursive: true });
-    await writeFile(filePath, contents);
+    await writeFile(filePath, contents, "utf8");
 
     console.log(`Successfully wrote contents to ${filePath}`);
   } catch (error) {
